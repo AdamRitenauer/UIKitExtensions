@@ -151,9 +151,11 @@
 				TargetAttributes = {
 					D6EABC841D6D4E2300C5862C = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					D6EABC8E1D6D4E2300C5862C = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -326,6 +328,7 @@
 				PRODUCT_NAME = UIKitExtensions;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -343,6 +346,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adamritenauer.UIKit-Extensions";
 				PRODUCT_NAME = UIKitExtensions;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -353,6 +357,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adamritenauer.UIKit-ExtensionsTests";
 				PRODUCT_NAME = UIKitExtensions;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -363,6 +368,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adamritenauer.UIKit-ExtensionsTests";
 				PRODUCT_NAME = UIKitExtensions;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -385,6 +391,7 @@
 				D6EABC9B1D6D4E2300C5862C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D6EABC9C1D6D4E2300C5862C /* Build configuration list for PBXNativeTarget "UIKitExtensionsTests" */ = {
 			isa = XCConfigurationList;
@@ -393,6 +400,7 @@
 				D6EABC9E1D6D4E2300C5862C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

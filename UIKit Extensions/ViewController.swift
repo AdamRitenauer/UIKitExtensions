@@ -8,14 +8,14 @@
 
 import UIKit
 
-public class ViewController:UIViewController {
+open class ViewController:UIViewController {
 	
 
 	/// A GCD queue used to defer the execution of view related operation until the view is available
-	let viewQueue = dispatch_queue_create("com.AdamRitenauer.UIKitExtensions.ViewController.viewQueue", DISPATCH_QUEUE_CONCURRENT)
+	let viewQueue = DispatchQueue(label: "com.AdamRitenauer.UIKitExtensions.ViewController.viewQueue", attributes: DispatchQueue.Attributes.concurrent)
 	
 	//MARK: - Init
-	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 		
@@ -29,21 +29,21 @@ public class ViewController:UIViewController {
 		setup()
 	}
 	
-	private func setup() {
+	fileprivate func setup() {
 		
 		// Configure viewQueue to execute on the main thread
-		dispatch_set_target_queue(viewQueue, dispatch_get_main_queue())
+		viewQueue.setTarget(queue: DispatchQueue.main)
 		
 		// Suspend viewQueue until viewDidLoad is executed
-		dispatch_suspend(viewQueue)
+		viewQueue.suspend()
 	}
 	
 	//MARK: - UIViewController
 	
-	override public func viewDidLoad() {
+	override open func viewDidLoad() {
 		
 		// The view is now available, execute all defered view operations
-		dispatch_resume(viewQueue)
+		viewQueue.resume()
 	}
 	
 	//MARK: - Utilities
@@ -53,7 +53,7 @@ public class ViewController:UIViewController {
 	
 		- discussion: Provides a strong reference to self
 	*/
-	public typealias DispatchViewHandler = ViewController->Void
+	public typealias DispatchViewHandler = (ViewController)->Void
 	
 	/** 
 		Executes the handler after the view loads
@@ -61,9 +61,9 @@ public class ViewController:UIViewController {
 		- parameter handler: The code to execute after viewDidLoad executes
 		- discussion: Reduces the need for transient state variables, by enquing view related operations unitl after the view is available. Hanlders scheduled before the execution viewDidLoad will be defered, Handlers scheduled after viewDidLoad will execute immediately, albeit asynchronously.
 	*/
-	public func dispatch_view(handler:ViewController->Void) {
+	open func dispatch_view(_ handler:@escaping (ViewController)->Void) {
 		
-		dispatch_async(viewQueue) { [weak self] in
+		viewQueue.async { [weak self] in
 			
 			guard let sself = self else {
 				
