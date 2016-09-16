@@ -12,7 +12,11 @@ open class ViewController:UIViewController {
 	
 
 	/// A GCD queue used to defer the execution of view related operation until the view is available
-	let viewQueue = DispatchQueue(label: "com.AdamRitenauer.UIKitExtensions.ViewController.viewQueue", attributes: DispatchQueue.Attributes.concurrent)
+	let viewQueue = DispatchQueue(label: "com.AdamRitenauer.UIKitExtensions.ViewController.viewQueue",
+	                              qos: DispatchQoS.userInteractive,
+	                              attributes: DispatchQueue.Attributes.concurrent,
+	                              autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem,
+	                              target: DispatchQueue.main)
 	
 	//MARK: - Init
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -30,10 +34,7 @@ open class ViewController:UIViewController {
 	}
 	
 	fileprivate func setup() {
-		
-		// Configure viewQueue to execute on the main thread
-		viewQueue.setTarget(queue: DispatchQueue.main)
-		
+	
 		// Suspend viewQueue until viewDidLoad is executed
 		viewQueue.suspend()
 	}
@@ -61,7 +62,7 @@ open class ViewController:UIViewController {
 		- parameter handler: The code to execute after viewDidLoad executes
 		- discussion: Reduces the need for transient state variables, by enquing view related operations unitl after the view is available. Hanlders scheduled before the execution viewDidLoad will be defered, Handlers scheduled after viewDidLoad will execute immediately, albeit asynchronously.
 	*/
-	open func dispatch_view(_ handler:@escaping (ViewController)->Void) {
+	open func dispatch_view<ViewControllerType:ViewController>(_ handler:@escaping (ViewControllerType)->Void) {
 		
 		viewQueue.async { [weak self] in
 			
@@ -71,7 +72,7 @@ open class ViewController:UIViewController {
 				return
 			}
 			
-			handler(sself)
+			handler(sself as! ViewControllerType)
 		}
 	}
 }
